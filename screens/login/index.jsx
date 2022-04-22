@@ -39,9 +39,7 @@ const Login = () => {
 
     setSubmitting(true);
     try {
-      console.log('hi');
       await auth().signInWithEmailAndPassword(form.email, form.password);
-      console.log('bye');
     } catch (err) {
       setNoUser(true);
       setSubmitting(false);
@@ -52,7 +50,7 @@ const Login = () => {
     <KeyboardAwareScroll>
       <StatusBar style="auto" />
       <Header pt={top} level="2">
-        <Title category="h3">Name</Title>
+        <Title category="h3">Garov Admin</Title>
         <Subtitle category="h6">Inicia sesión</Subtitle>
       </Header>
       <Content>

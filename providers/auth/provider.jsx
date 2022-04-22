@@ -13,7 +13,7 @@ const AuthProvider = ({ children }) => {
       if (authentication) {
         const userSnapshot = await db()
           .collection('Users')
-          .where('uid', '==', authentication.uid)
+          .where('userID', '==', authentication.uid)
           .get();
 
         let userToSet;

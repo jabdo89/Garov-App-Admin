@@ -12,9 +12,9 @@ import Main from '@navigators/main';
 import Auth from '@navigators/auth';
 
 const App = () => {
-  const isLogged = false;
-  // if (loading) return <Splash />;
-
+  const { isLogged, loading } = useAuth();
+  console.log(isLogged);
+  if (loading) return <Splash />;
   if (isLogged) return <Main />;
 
   return <Auth />;

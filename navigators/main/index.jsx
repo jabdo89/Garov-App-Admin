@@ -3,15 +3,12 @@ import PropTypes from 'prop-types';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomNavigation, BottomNavigationTab, Icon } from '@ui-kitten/components';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Send from '@screens/send';
-import Deliver from '@screens/deliver';
-import Profile from '@screens/profile';
+import Home from '@screens/home';
 
 const { Navigator: BottomNavigator, Screen: BottomScreen } = createBottomTabNavigator();
 
 const BottomBar = ({ navigation, state }) => {
   const { bottom } = useSafeAreaInsets();
-
   return (
     <BottomNavigation
       selectedIndex={state.index}
@@ -19,20 +16,10 @@ const BottomBar = ({ navigation, state }) => {
       style={{
         paddingBottom: bottom,
         paddingTop: 20,
+        backgroundColor: '#FFFFFF',
       }}
     >
-      <BottomNavigationTab
-        title="Enviar"
-        icon={(props) => <Icon {...props} name="arrowhead-up-outline" />}
-      />
-      <BottomNavigationTab
-        title="Entregar"
-        icon={(props) => <Icon {...props} name="car-outline" />}
-      />
-      <BottomNavigationTab
-        title="Perfil"
-        icon={(props) => <Icon {...props} name="person-outline" />}
-      />
+      <BottomNavigationTab title="Home" icon={(props) => <Icon {...props} name="home" />} />
     </BottomNavigation>
   );
 };
@@ -40,9 +27,7 @@ const BottomBar = ({ navigation, state }) => {
 const Main = () => {
   return (
     <BottomNavigator tabBar={(props) => <BottomBar {...props} />}>
-      <BottomScreen name="Send" component={Send} />
-      <BottomScreen name="Deliver" component={Deliver} />
-      <BottomScreen name="Profile" component={Profile} />
+      <BottomScreen name="Home" component={Home} />
     </BottomNavigator>
   );
 };

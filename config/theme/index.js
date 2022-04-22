@@ -1,12 +1,15 @@
 const theme = {
+  animation: {
+    scale: 1.0,
+  },
   light: {
     'color-primary-100': '#E3DEFD',
     'color-primary-200': '#C7BEFC',
     'color-primary-300': '#A89BF6',
-    'color-primary-400': '#8D7FED',
-    'color-primary-500': '#6757E2',
-    'color-primary-600': '#4D3FC2',
-    'color-primary-700': '#362BA2',
+    'color-primary-400': '#3844E6',
+    'color-primary-500': '#3844E6', // Primary
+    'color-primary-600': '#3844E6',
+    'color-primary-700': '#3844E6',
     'color-primary-800': '#231B83',
     'color-primary-900': '#16106C',
     'color-primary-transparent-100': 'rgba(103, 87, 226, 0.08)',

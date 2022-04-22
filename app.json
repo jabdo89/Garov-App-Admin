@@ -1,8 +1,10 @@
 {
   "expo": {
-    "name": "Avviare",
-    "slug": "Avviare",
+    "name": "Template",
+    "slug": "Template",
     "version": "1.0.0",
+    "privacy": "public",
+    "description": "Template",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {

@@ -5,6 +5,7 @@ import { BottomNavigation, BottomNavigationTab, Icon } from '@ui-kitten/componen
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Home from '@screens/home';
 import ScanBodega from '@screens/scan-bodega';
+import RouteClient from '@screens/route-client';
 
 const { Navigator: BottomNavigator, Screen: BottomScreen } = createBottomTabNavigator();
 
@@ -30,6 +31,7 @@ const Main = () => {
     <BottomNavigator tabBar={(props) => <BottomBar {...props} />}>
       <BottomScreen name="Home" component={Home} />
       <BottomScreen name="Scan-Bodega" component={ScanBodega} />
+      <BottomScreen name="Route-Client" component={RouteClient} />
     </BottomNavigator>
   );
 };

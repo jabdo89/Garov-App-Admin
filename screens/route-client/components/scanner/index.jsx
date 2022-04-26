@@ -35,58 +35,6 @@ const InitialDeliveriesScanModal = ({ navigation }) => {
 
   const handleBarCodeScanned = async ({ data }) => {
     const db = firebase.firestore();
-
-    if (!stopScan) {
-      setStopScan(true);
-      db.collection('Guias')
-        .where('delivery', '==', data.substring(0, data.length - 3))
-        .onSnapshot((querySnapshot) => {
-          const info = [];
-          // eslint-disable-next-line func-names
-          querySnapshot.forEach((doc) => {
-            info.push(doc.data());
-            if (info[0].estatus === 'Creado') {
-              if (info[0].escaneadas?.includes(data)) {
-                Alert.alert('Cuidado', 'Esta Guia ya fue escaneada', [
-                  { text: 'Entendido', onPress: () => setStopScan(false) },
-                ]);
-              } else if (
-                (info[0].escaneadas ? info[0].escaneadas.length + 1 : 1) ===
-                // eslint-disable-next-line radix
-                parseInt(info[0].cantidadPqte)
-              ) {
-                const scannedArray = info[0].escaneadas ? info[0].escaneadas : [];
-                scannedArray.push(data);
-                db.collection('Guias')
-                  .doc(info[0].id)
-                  .update({ estatus: 'Escaneado', escaneadas: scannedArray })
-                  .then(() => {
-                    setScannedCount(scannedCount + 1);
-                    Alert.alert('Guia Escaneada', 'Se escaneo la guia correctamente', [
-                      { text: 'Entendido', onPress: () => setStopScan(false) },
-                    ]);
-                  });
-              } else {
-                const scannedArray = info[0].escaneadas ? info[0].escaneadas : [];
-                scannedArray.push(data);
-                db.collection('Guias')
-                  .doc(info[0].id)
-                  .update({ escaneadas: scannedArray })
-                  .then(() => {
-                    setScannedCount(scannedCount + 1);
-                    Alert.alert('Guia Escaneada', 'Se escaneo la guia correctamente', [
-                      { text: 'Entendido', onPress: () => setStopScan(false) },
-                    ]);
-                  });
-              }
-            } else {
-              Alert.alert('Cuidado', 'Esta Guia ya fue escaneada', [
-                { text: 'Entendido', onPress: () => setStopScan(false) },
-              ]);
-            }
-          });
-        });
-    }
   };
 
   return (

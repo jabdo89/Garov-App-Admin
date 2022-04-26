@@ -97,7 +97,7 @@ const Agenda = () => {
           <View style={{ margin: 10 }}>
             <Button
               appearance="ghost"
-              onPress={() => navigate('Send')}
+              onPress={() => navigate('Route-Client')}
               style={{
                 borderRadius: 10,
                 borderColor: 'black',

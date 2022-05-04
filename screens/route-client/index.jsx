@@ -1,42 +1,44 @@
+/* eslint-disable no-plusplus */
 import React, { useState, useEffect } from 'react';
 import firebase from 'firebase';
+import { useAuth } from '@providers/auth';
 import { View, Text } from 'react-native';
+import shortid from 'shortid';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import { Icon, Select, SelectItem, IndexPath } from '@ui-kitten/components';
-import { Content, Input, SigninButton, Title } from './elements';
+import { Select, SelectItem, IndexPath, Radio, RadioGroup, Button } from '@ui-kitten/components';
+import { Content, SigninButton, Title } from './elements';
 
 const RouteClient = () => {
   const { top } = useSafeAreaInsets();
   const { navigate } = useNavigation();
-  const [form, setForm] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-  });
+  const { user } = useAuth();
 
   const [operadores, setOperadores] = useState([]);
   const [operadoresIndex, setOperadoresIndex] = useState(new IndexPath(0));
 
   const [unidades, setUnidades] = useState([]);
   const [unidadesIndex, setUnidadesIndex] = useState(new IndexPath(0));
+  const [corridaIndex, setCorridaIndex] = useState(new IndexPath(0));
+
+  const [guias, setGuias] = useState([]);
 
   useEffect(() => {
     const db = firebase.firestore();
 
     const query = async () => {
-      db.collection('Operadores').onSnapshot((querySnapshot) => {
-        const info = [];
-        let data = {};
-        // eslint-disable-next-line func-names
-        querySnapshot.forEach((doc) => {
-          data = doc.data();
-          info.push(data);
+      db.collection('Operadores')
+        .where('adminID', '==', user.userID)
+        .onSnapshot((querySnapshot) => {
+          const info = [];
+          let data = {};
+          // eslint-disable-next-line func-names
+          querySnapshot.forEach((doc) => {
+            data = doc.data();
+            info.push(data);
+          });
+          setOperadores(info);
         });
-        setOperadores(info);
-      });
     };
 
     query();
@@ -46,22 +48,55 @@ const RouteClient = () => {
     const db = firebase.firestore();
 
     const query = async () => {
-      db.collection('Unidades').onSnapshot((querySnapshot) => {
-        const info = [];
-        let data = {};
-        // eslint-disable-next-line func-names
-        querySnapshot.forEach((doc) => {
-          data = doc.data();
-          info.push(data);
+      db.collection('Unidades')
+        .where('adminID', '==', user.userID)
+        .onSnapshot((querySnapshot) => {
+          const info = [];
+          let data = {};
+          // eslint-disable-next-line func-names
+          querySnapshot.forEach((doc) => {
+            data = doc.data();
+            info.push(data);
+          });
+          setUnidades(info);
         });
-        setUnidades(info);
-      });
     };
 
     query();
   }, []);
-
-  const submit = async () => {};
+  const submit = async () => {
+    const db = firebase.firestore();
+    const guiasArray = [];
+    for (let i = 0; i < guias.length; i++) {
+      guiasArray.push(guias[i].id);
+    }
+    const id = shortid.generate();
+    db.collection('Corridas')
+      .doc(id)
+      .set({
+        id,
+        guias: guiasArray,
+        estatus: 'activo',
+        fecha: new Date(),
+        adminID: user.userID,
+        numCorrida: 'pending',
+        operador: operadores[operadoresIndex.row].userID,
+        tipo: corridaIndex.row === 0 ? 'Corrida a Cliente' : 'Corrida a Bodega',
+        unidad: unidades[unidadesIndex.row].id,
+      })
+      .then(() => {
+        for (let i = 0; i < guiasArray.length; i++) {
+          db.collection('Guias').doc(guiasArray[i]).update({
+            estatus: 'En Corrida',
+          });
+        }
+        setGuias([]);
+        navigate('Home');
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
   return (
     <Content pt={top}>
@@ -78,6 +113,24 @@ const RouteClient = () => {
           Crear Corrida
         </Title>
       </View>
+      <Text>Tipo de Corrida</Text>
+      <RadioGroup
+        selectedIndex={corridaIndex}
+        onChange={(index) => setCorridaIndex(index)}
+        style={{ marginBottom: 20 }}
+      >
+        {/* <View
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            flexDirection: 'row',
+            marginRight: 50,
+          }}
+        > */}
+        <Radio>Cliente</Radio>
+        <Radio>Bodega</Radio>
+        {/* </View> */}
+      </RadioGroup>
       <Text>Operador</Text>
       <Select
         size="large"
@@ -102,28 +155,20 @@ const RouteClient = () => {
           return <SelectItem title={category.tipoUnidad} />;
         })}
       </Select>
-      <Input
-        size="large"
-        autoCapitalize="none"
-        value={form.email}
-        autoCompleteType="email"
-        label="Correo"
-        placeholder="Ingresa tu correo electrónico"
-        accessoryLeft={(props) => <Icon {...props} name="person-outline" />}
-        onChangeText={(nextValue) => setForm({ ...form, email: nextValue })}
-      />
+      <Text style={{ fontSize: 18 }}>Guias Escaneadas : {guias?.length}</Text>
 
-      <SigninButton
+      <Button
+        appearance="ghost"
         onPress={() =>
-          navigate('InitialDeliveriesScanModal', {
-            onFinish: () =>
-              //     setValues({ ...values, qrScannedAt: moment().valueOf() }),
-              //   deliveries: route?.stops[route?.currentStop]?.drops,
-              console.log('hi'),
+          navigate('Scan-Route', {
+            onFinish: setGuias,
           })
         }
       >
         Escanear Guias
+      </Button>
+      <SigninButton onPress={() => submit()} disabled={guias?.length === 0}>
+        Crear Corrida
       </SigninButton>
     </Content>
   );

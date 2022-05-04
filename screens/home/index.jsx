@@ -74,21 +74,22 @@ const Agenda = () => {
                       color: 'black',
                       marginTop: 20,
                       fontSize: 15,
-                      width: '60%',
+                      width: '40%',
                     }}
                   >
-                    Escanear Guias en Bodega
+                    Escanear Guias a Bodega
                   </Text>
                   <Text
                     style={{
                       fontWeight: '300',
                       color: 'black',
                       fontSize: 10,
-                      width: '80%',
+                      width: '40%',
                       marginTop: 5,
                     }}
                   >
-                    Todo lo que quieras, hasta la puerta de tu casa.
+                    Escanea las Guias para confirmar que esten listas para ser documentadas y
+                    enviadas a los clientes.
                   </Text>
                 </View>
               </View>
@@ -128,7 +129,7 @@ const Agenda = () => {
                       width: '60%',
                     }}
                   >
-                    Corrida a Cliente
+                    Crear Corrida
                   </Text>
                   <Text
                     style={{

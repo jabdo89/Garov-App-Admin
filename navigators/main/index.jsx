@@ -7,6 +7,7 @@ import Home from '@screens/home';
 import ScanBodega from '@screens/scan-bodega';
 import RouteClient from '@screens/route-client';
 import ScanRoute from '@screens/scan-route';
+import ScanLlegadaBodega from '@screens/scan-llegada-bodega';
 
 const { Navigator: BottomNavigator, Screen: BottomScreen } = createBottomTabNavigator();
 
@@ -34,6 +35,7 @@ const Main = () => {
       <BottomScreen name="Scan-Bodega" component={ScanBodega} />
       <BottomScreen name="Route-Client" component={RouteClient} />
       <BottomScreen name="Scan-Route" component={ScanRoute} />
+      <BottomScreen name="Scan-Llegada-Bodega" component={ScanLlegadaBodega} />
     </BottomNavigator>
   );
 };

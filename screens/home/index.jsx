@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Text, View, Image } from 'react-native';
+import { Text, View, Image, ScrollView } from 'react-native';
 import { useAuth } from '@providers/auth';
 import { Button } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
@@ -42,7 +42,7 @@ const Agenda = () => {
             ¿Listo para Escanear?
           </Text>
         </View>
-        <View>
+        <ScrollView>
           <View style={{ margin: 10 }}>
             <Button
               appearance="ghost"
@@ -126,7 +126,7 @@ const Agenda = () => {
                       color: 'black',
                       marginTop: 20,
                       fontSize: 15,
-                      width: '60%',
+                      width: '80%',
                     }}
                   >
                     Crear Corrida
@@ -140,13 +140,64 @@ const Agenda = () => {
                       marginTop: 5,
                     }}
                   >
-                    Todo lo que quieras, hasta la puerta de tu casa.
+                    Crea una corrida a cliente o bodega
                   </Text>
                 </View>
               </View>
             </Button>
           </View>
-        </View>
+          <View style={{ margin: 10 }}>
+            <Button
+              appearance="ghost"
+              onPress={() => navigate('Scan-Llegada-Bodega')}
+              style={{
+                borderRadius: 10,
+                borderColor: 'black',
+                display: 'flex',
+                padding: 0,
+                height: 180,
+              }}
+            >
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <Image
+                  style={{ height: 150, width: '40%', marginRight: 20, borderRadius: 10 }}
+                  // eslint-disable-next-line global-require
+                  source={require('./imgs/home_enviar.jpg')}
+                />
+                <View>
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      color: 'black',
+                      marginTop: 20,
+                      fontSize: 15,
+                      width: '70%',
+                    }}
+                  >
+                    Escanear Llegada a Bodega
+                  </Text>
+                  <Text
+                    style={{
+                      fontWeight: '300',
+                      color: 'black',
+                      fontSize: 10,
+                      width: '80%',
+                      marginTop: 5,
+                    }}
+                  >
+                    Escanear Llegada a Bodega
+                  </Text>
+                </View>
+              </View>
+            </Button>
+          </View>
+        </ScrollView>
       </Container>
     </>
   );

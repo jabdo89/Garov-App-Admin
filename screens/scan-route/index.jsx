@@ -88,7 +88,7 @@ const ScanRoute = ({
   };
 
   const submit = () => {
-    onFinish(...guiasData);
+    onFinish(guiasData);
     navigation.goBack();
   };
   return (

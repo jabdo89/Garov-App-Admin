@@ -68,7 +68,7 @@ const RouteClient = () => {
     const db = firebase.firestore();
     const guiasArray = [];
     for (let i = 0; i < guias.length; i++) {
-      guiasArray.push(guias[i].id);
+      guiasArray.push(guias[i][0].id);
     }
     const id = shortid.generate();
     db.collection('Corridas')

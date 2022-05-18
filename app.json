@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "Template",
-    "slug": "Template",
+    "name": "Garov-Admin",
+    "slug": "Garov-Admin",
     "version": "1.0.0",
     "privacy": "public",
-    "description": "Template",
+    "description": "Garov Admin",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -23,7 +23,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.jabdo89.GarovAdmin"
     },
     "web": {
       "favicon": "./assets/favicon.png"

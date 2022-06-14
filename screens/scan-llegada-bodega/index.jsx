@@ -5,6 +5,7 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Alert, View } from 'react-native';
 import firebase from 'firebase';
 import { Icon, Text } from '@ui-kitten/components';
+import { useFocusEffect } from '@react-navigation/native';
 import {
   CloseButton,
   Container,
@@ -17,6 +18,7 @@ import {
 const ScanLlegadaBodega = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [stopScan, setStopScan] = useState(false);
+  const [isFocus, setIsFocus] = useState(false);
   const { top } = useSafeAreaInsets();
 
   const requestPermissions = async () => {
@@ -27,6 +29,15 @@ const ScanLlegadaBodega = ({ navigation }) => {
   useEffect(() => {
     requestPermissions();
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setIsFocus(true);
+      return () => {
+        setIsFocus(false);
+      };
+    }, [])
+  );
 
   const handleBarCodeScanned = async ({ data }) => {
     const db = firebase.firestore();
@@ -60,6 +71,10 @@ const ScanLlegadaBodega = ({ navigation }) => {
         });
     }
   };
+
+  if (!isFocus) {
+    return <></>;
+  }
 
   return (
     <>

@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Alert, View } from 'react-native';
 import firebase from 'firebase';
+import { useFocusEffect } from '@react-navigation/native';
 import { Icon, Text, Button } from '@ui-kitten/components';
 import Modal from './components/modal';
 import {
@@ -34,6 +35,8 @@ const ScanRoute = ({
   const [guiasData, setGuiasData] = useState([]);
   const [isModalOpen, toggleModal] = useState(false);
 
+  const [isFocus, setIsFocus] = useState(false);
+
   const requestPermissions = async () => {
     const { status } = await BarCodeScanner.requestPermissionsAsync();
     setHasPermission(status === 'granted');
@@ -42,6 +45,15 @@ const ScanRoute = ({
   useEffect(() => {
     requestPermissions();
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setIsFocus(true);
+      return () => {
+        setIsFocus(false);
+      };
+    }, [])
+  );
 
   const handleBarCodeScanned = async ({ data }) => {
     const db = firebase.firestore();
@@ -91,6 +103,10 @@ const ScanRoute = ({
     onFinish(guiasData);
     navigation.goBack();
   };
+
+  if (!isFocus) {
+    return <></>;
+  }
   return (
     <>
       <Container pt={top}>

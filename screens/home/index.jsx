@@ -36,7 +36,7 @@ const Agenda = () => {
             }}
             strong
           >
-            Hola, {user.nombre}
+            Hola, {user.nombre} Admin
           </Text>
           <Text style={{ color: 'white', fontSize: 15, marginLeft: 20 }}>
             ¿Listo para Escanear?
@@ -63,18 +63,19 @@ const Agenda = () => {
                 }}
               >
                 <Image
-                  style={{ height: 150, width: '40%', marginRight: 20, borderRadius: 10 }}
+                  style={{ width: 150, height: 150, borderRadius: 10 }}
                   // eslint-disable-next-line global-require
                   source={require('./imgs/home_deliver.jpg')}
                 />
-                <View>
+
+                <View style={{ marginLeft: 20 }}>
                   <Text
                     style={{
                       fontWeight: 'bold',
                       color: 'black',
                       marginTop: 20,
                       fontSize: 15,
-                      width: '40%',
+                      width: '30%',
                     }}
                   >
                     Escanear Guias a Bodega
@@ -84,7 +85,7 @@ const Agenda = () => {
                       fontWeight: '300',
                       color: 'black',
                       fontSize: 10,
-                      width: '40%',
+                      width: '30%',
                       marginTop: 5,
                     }}
                   >
@@ -115,7 +116,7 @@ const Agenda = () => {
                 }}
               >
                 <Image
-                  style={{ height: 150, width: '40%', marginRight: 20, borderRadius: 10 }}
+                  style={{ height: 150, width: 150, marginRight: 20, borderRadius: 10 }}
                   // eslint-disable-next-line global-require
                   source={require('./imgs/home_enviar.jpg')}
                 />
@@ -166,7 +167,7 @@ const Agenda = () => {
                 }}
               >
                 <Image
-                  style={{ height: 150, width: '40%', marginRight: 20, borderRadius: 10 }}
+                  style={{ height: 150, width: 150, marginRight: 20, borderRadius: 10 }}
                   // eslint-disable-next-line global-require
                   source={require('./imgs/home_enviar.jpg')}
                 />

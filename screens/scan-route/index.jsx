@@ -62,7 +62,8 @@ const ScanRoute = ({
       setStopScan(true);
       db.collection('Guias')
         .where('delivery', '==', data.substring(0, data.length - 3))
-        .onSnapshot((querySnapshot) => {
+        .get()
+        .then((querySnapshot) => {
           const info = [];
           // eslint-disable-next-line func-names
           querySnapshot.forEach((doc) => {

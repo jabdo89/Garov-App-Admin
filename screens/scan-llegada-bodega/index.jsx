@@ -46,16 +46,25 @@ const ScanLlegadaBodega = ({ navigation }) => {
       setStopScan(true);
       db.collection('Guias')
         .where('delivery', '==', data.substring(0, data.length - 3))
-        .onSnapshot((querySnapshot) => {
+        .get()
+        .then((querySnapshot) => {
           const info = [];
           // eslint-disable-next-line func-names
           querySnapshot.forEach((doc) => {
             info.push(doc.data());
+            const tempArray = info[0].eventos;
+
+            tempArray.push({
+              statusid: 3,
+              status: 'Documentado',
+              fecha: new Date(),
+            });
             if (info[0].estatus === 'En Corrida') {
               db.collection('Guias')
                 .doc(doc.id)
                 .update({
                   estatus: 'Documentado',
+                  eventos: tempArray,
                 })
                 .then(() => {
                   Alert.alert('Guia Escaneada', 'Continue Escaneando', [

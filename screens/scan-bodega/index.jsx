@@ -45,7 +45,8 @@ const InitialDeliveriesScanModal = ({ navigation }) => {
     setStopScan(true);
     db.collection('Guias')
       .where('delivery', '==', data.substring(0, data.length - 3))
-      .onSnapshot((querySnapshot) => {
+      .get()
+      .then((querySnapshot) => {
         const info = [];
 
         // eslint-disable-next-line func-names
@@ -70,9 +71,16 @@ const InitialDeliveriesScanModal = ({ navigation }) => {
             ) {
               const scannedArray = info[0].escaneadas ? info[0].escaneadas : [];
               scannedArray.push(data);
+              const tempArray = info[0].eventos;
+
+              tempArray.push({
+                statusid: 2,
+                status: 'Escaneado',
+                fecha: new Date(),
+              });
               db.collection('Guias')
                 .doc(info[0].id)
-                .update({ estatus: 'Escaneado', escaneadas: scannedArray })
+                .update({ estatus: 'Escaneado', escaneadas: scannedArray, eventos: tempArray })
                 .then(() => {
                   setScannedCount(scannedCount + 1);
                   Alert.alert('Guia Escaneada', 'Se escaneo la guia correctamente', [

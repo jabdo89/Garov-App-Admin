@@ -71,6 +71,7 @@ const RouteClient = () => {
       guiasArray.push(guias[i][0].id);
     }
     const id = shortid.generate();
+
     db.collection('Corridas')
       .doc(id)
       .set({
@@ -81,19 +82,35 @@ const RouteClient = () => {
         adminID: user.userID,
         numCorrida: 'pending',
         operador: operadores[operadoresIndex.row].userID,
-        tipo: corridaIndex.row === 0 ? 'Corrida a Cliente' : 'Corrida a Bodega',
+        tipo: corridaIndex === 0 ? 'Corrida a Cliente' : 'Corrida a Bodega',
         unidad: unidades[unidadesIndex.row].id,
       })
       .then(() => {
         for (let i = 0; i < guiasArray.length; i++) {
-          db.collection('Guias').doc(guiasArray[i]).update({
-            estatus: 'En Corrida',
-          });
+          let info = null;
+          db.collection('Guias')
+            .doc(guiasArray[i])
+            .get()
+            .then((doc) => {
+              info = doc.data();
+              const tempArray = info.eventos;
+
+              tempArray.push({
+                statusid: 4,
+                status: 'En Corrida',
+                fecha: new Date(),
+              });
+              db.collection('Guias').doc(guiasArray[i]).update({
+                estatus: 'En Corrida',
+                eventos: tempArray,
+              });
+            });
         }
         setGuias([]);
         navigate('Home');
       })
       .catch((err) => {
+        // eslint-disable-next-line no-console
         console.error(err);
       });
   };
@@ -119,17 +136,8 @@ const RouteClient = () => {
         onChange={(index) => setCorridaIndex(index)}
         style={{ marginBottom: 20 }}
       >
-        {/* <View
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            flexDirection: 'row',
-            marginRight: 50,
-          }}
-        > */}
         <Radio>Cliente</Radio>
         <Radio>Bodega</Radio>
-        {/* </View> */}
       </RadioGroup>
       <Text>Operador</Text>
       <Select

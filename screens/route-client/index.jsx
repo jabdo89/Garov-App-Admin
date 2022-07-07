@@ -6,7 +6,16 @@ import { View, Text } from 'react-native';
 import shortid from 'shortid';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import { Select, SelectItem, IndexPath, Radio, RadioGroup, Button } from '@ui-kitten/components';
+import {
+  Select,
+  SelectItem,
+  IndexPath,
+  Radio,
+  RadioGroup,
+  Button,
+  Input,
+  Icon,
+} from '@ui-kitten/components';
 import { Content, SigninButton, Title } from './elements';
 
 const RouteClient = () => {
@@ -22,6 +31,8 @@ const RouteClient = () => {
   const [corridaIndex, setCorridaIndex] = useState(new IndexPath(0));
 
   const [guias, setGuias] = useState([]);
+
+  const [kmInicial, setKmInicial] = useState(null);
 
   useEffect(() => {
     const db = firebase.firestore();
@@ -80,7 +91,7 @@ const RouteClient = () => {
         estatus: 'activo',
         fecha: new Date(),
         adminID: user.userID,
-        numCorrida: 'pending',
+        kmInicial,
         operador: operadores[operadoresIndex.row].userID,
         tipo: corridaIndex === 0 ? 'Corrida a Cliente' : 'Corrida a Bodega',
         unidad: unidades[unidadesIndex.row].id,
@@ -163,6 +174,15 @@ const RouteClient = () => {
           return <SelectItem title={category.tipoUnidad} />;
         })}
       </Select>
+      <Input
+        size="large"
+        autoCapitalize="none"
+        value={kmInicial}
+        label="Km Inicial"
+        placeholder="Ingresa el km inicial"
+        accessoryLeft={(props) => <Icon {...props} name="person-outline" />}
+        onChangeText={(nextValue) => setKmInicial(nextValue)}
+      />
       <Text style={{ fontSize: 18 }}>Guias Escaneadas : {guias?.length}</Text>
 
       <Button
@@ -175,7 +195,7 @@ const RouteClient = () => {
       >
         Escanear Guias
       </Button>
-      <SigninButton onPress={() => submit()} disabled={guias?.length === 0}>
+      <SigninButton onPress={() => submit()} disabled={guias?.length === 0 || !kmInicial}>
         Crear Corrida
       </SigninButton>
     </Content>

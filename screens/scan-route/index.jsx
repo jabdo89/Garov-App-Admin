@@ -68,8 +68,8 @@ const ScanRoute = ({
           // eslint-disable-next-line func-names
           querySnapshot.forEach((doc) => {
             info.push(doc.data());
-            if (info[0].estatus !== 'Documentado') {
-              Alert.alert('Cuidado', 'Esta Guia no se ha documentado', [
+            if (info[0].estatus !== 'Documentado' && info[0].estatus !== 'Escaneado') {
+              Alert.alert('Cuidado', 'Esta Guia no se ha documentado ni escaneado', [
                 { text: 'Entendido', onPress: () => setStopScan(false) },
               ]);
             } else {

@@ -11,7 +11,6 @@ import {
   Container,
   PermissionsContainer,
   RequestAccessButton,
-  Scanner,
   TitleContainer,
 } from './elements';
 
@@ -49,6 +48,12 @@ const ScanLlegadaBodega = ({ navigation }) => {
         .get()
         .then((querySnapshot) => {
           const info = [];
+          if (querySnapshot.empty) {
+            Alert.alert('Cuidado', 'Esta Guia no existe en el sistema', [
+              { text: 'Entendido', onPress: () => setStopScan(false) },
+            ]);
+            return;
+          }
           // eslint-disable-next-line func-names
           querySnapshot.forEach((doc) => {
             info.push(doc.data());
@@ -111,7 +116,12 @@ const ScanLlegadaBodega = ({ navigation }) => {
           <RequestAccessButton onPress={requestPermissions}>Give access</RequestAccessButton>
         </PermissionsContainer>
       )}
-      {hasPermission && <Scanner onBarCodeScanned={stopScan ? undefined : handleBarCodeScanned} />}
+      {hasPermission && (
+        <BarCodeScanner
+          onBarCodeScanned={stopScan ? undefined : handleBarCodeScanned}
+          style={{ width: '100%', flex: 1 }}
+        />
+      )}
     </>
   );
 };

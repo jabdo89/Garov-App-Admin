@@ -1,6 +1,5 @@
 import styled from 'styled-components/native';
 import { Button, Layout } from '@ui-kitten/components';
-import { BarCodeScanner } from 'expo-barcode-scanner';
 
 const Container = styled(Layout)`
   padding: 20px;
@@ -32,17 +31,4 @@ const RequestAccessButton = styled(Button)`
   margin-top: 20px;
 `;
 
-const Scanner = styled(BarCodeScanner)`
-  width: 100%;
-  flex-grow: 1;
-`;
-
-export {
-  Container,
-  TitleContainer,
-  CloseButton,
-  Row,
-  PermissionsContainer,
-  RequestAccessButton,
-  Scanner,
-};
+export { Container, TitleContainer, CloseButton, Row, PermissionsContainer, RequestAccessButton };

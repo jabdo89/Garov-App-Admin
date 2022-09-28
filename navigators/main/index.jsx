@@ -6,7 +6,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Home from '@screens/home';
 import ScanBodega from '@screens/scan-bodega';
 import RouteClient from '@screens/route-client';
+import ManifestoCarga from '@screens/manifesto-carga';
 import ScanRoute from '@screens/scan-route';
+import ScanManifesto from '@screens/scan-manifesto';
 import ScanLlegadaBodega from '@screens/scan-llegada-bodega';
 
 const { Navigator: BottomNavigator, Screen: BottomScreen } = createBottomTabNavigator();
@@ -34,7 +36,9 @@ const Main = () => {
       <BottomScreen name="Home" component={Home} />
       <BottomScreen name="Scan-Bodega" component={ScanBodega} />
       <BottomScreen name="Route-Client" component={RouteClient} />
+      <BottomScreen name="Manifesto-Carga" component={ManifestoCarga} />
       <BottomScreen name="Scan-Route" component={ScanRoute} />
+      <BottomScreen name="Scan-Manifesto" component={ScanManifesto} />
       <BottomScreen name="Scan-Llegada-Bodega" component={ScanLlegadaBodega} />
     </BottomNavigator>
   );

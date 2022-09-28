@@ -32,7 +32,7 @@ const RouteClient = () => {
 
   const [guias, setGuias] = useState([]);
 
-  const [kmInicial, setKmInicial] = useState(null);
+  const [escaneador, setEscaneador] = useState(null);
 
   const [loading, setLoading] = useState(false);
 
@@ -86,18 +86,19 @@ const RouteClient = () => {
     }
     const id = shortid.generate();
 
-    db.collection('Corridas')
+    db.collection('ManifestoCarga')
       .doc(id)
       .set({
         id,
         guias: guiasArray,
-        estatus: 'activo',
         fecha: new Date(),
         adminID: user.userID,
-        kmInicial,
-        operador: operadores[operadoresIndex.row].userID,
+        escaneador,
+        estatus: 'Sin Corrida',
+        corrida: null,
+        operador: operadores[operadoresIndex.row].nombre,
         tipo: corridaIndex === 0 ? 'Corrida a Cliente' : 'Corrida a Bodega',
-        unidad: unidades[unidadesIndex.row].id,
+        unidad: unidades[unidadesIndex.row]?.tipoUnidad,
       })
       .then(() => {
         for (let i = 0; i < guiasArray.length; i++) {
@@ -110,18 +111,19 @@ const RouteClient = () => {
               const tempArray = info.eventos;
 
               tempArray.push({
-                statusid: 4,
-                status: 'En Corrida',
+                statusid: 1,
+                status: 'Escaneado',
                 fecha: new Date(),
               });
               db.collection('Guias').doc(guiasArray[i]).update({
-                estatus: 'En Corrida',
+                estatus: 'Escaneado',
                 eventos: tempArray,
               });
             });
         }
         setLoading(false);
         setGuias([]);
+        setEscaneador(null);
         navigate('Home');
       })
       .catch((err) => {
@@ -142,7 +144,7 @@ const RouteClient = () => {
         }}
       >
         <Title category="h5" style={{ color: 'black' }}>
-          Crear Corrida
+          Crear Manifesto de Carga
         </Title>
       </View>
       <Text>Tipo de Corrida</Text>
@@ -181,18 +183,18 @@ const RouteClient = () => {
       <Input
         size="large"
         autoCapitalize="none"
-        value={kmInicial}
-        label="Km Inicial"
-        placeholder="Ingresa el km inicial"
+        value={escaneador}
+        label="Nombre de quien Escanea"
+        placeholder="Nombre"
         accessoryLeft={(props) => <Icon {...props} name="person-outline" />}
-        onChangeText={(nextValue) => setKmInicial(nextValue)}
+        onChangeText={(nextValue) => setEscaneador(nextValue)}
       />
       <Text style={{ fontSize: 18 }}>Guias Escaneadas : {guias?.length}</Text>
 
       <Button
         appearance="ghost"
         onPress={() =>
-          navigate('Scan-Route', {
+          navigate('Scan-Manifesto', {
             onFinish: setGuias,
           })
         }
@@ -201,9 +203,9 @@ const RouteClient = () => {
       </Button>
       <SigninButton
         onPress={() => submit()}
-        disabled={guias?.length === 0 || !kmInicial || loading}
+        disabled={guias?.length === 0 || !escaneador || loading}
       >
-        Crear Corrida
+        Crear Manifesto
       </SigninButton>
     </Content>
   );

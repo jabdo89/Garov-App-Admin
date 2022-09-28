@@ -42,7 +42,59 @@ const Agenda = () => {
             ¿Listo para Escanear?
           </Text>
         </View>
-        <ScrollView>
+        <ScrollView style={{ height: '80%' }}>
+          <View style={{ margin: 10 }}>
+            <Button
+              appearance="ghost"
+              onPress={() => navigate('Manifesto-Carga')}
+              style={{
+                borderRadius: 10,
+                borderColor: 'black',
+                display: 'flex',
+                padding: 0,
+                height: 180,
+              }}
+            >
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <Image
+                  style={{ width: 150, height: 150, borderRadius: 10 }}
+                  // eslint-disable-next-line global-require
+                  source={require('./imgs/home_deliver.jpg')}
+                />
+
+                <View style={{ marginLeft: 20 }}>
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      color: 'black',
+                      marginTop: 20,
+                      fontSize: 15,
+                      width: '30%',
+                    }}
+                  >
+                    Manifesto de Carga
+                  </Text>
+                  <Text
+                    style={{
+                      fontWeight: '300',
+                      color: 'black',
+                      fontSize: 10,
+                      width: '40%',
+                      marginTop: 5,
+                    }}
+                  >
+                    Generar Manifesto de Carga, para poder cargar los paquetes a las unidades
+                  </Text>
+                </View>
+              </View>
+            </Button>
+          </View>
           <View style={{ margin: 10 }}>
             <Button
               appearance="ghost"

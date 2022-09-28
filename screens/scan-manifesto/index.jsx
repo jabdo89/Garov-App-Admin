@@ -68,8 +68,8 @@ const ScanRoute = ({
           // eslint-disable-next-line func-names
           querySnapshot.forEach((doc) => {
             info.push(doc.data());
-            if (info[0].estatus !== 'Documentado') {
-              Alert.alert('Cuidado', 'Esta Guia no se ha documentada', [
+            if (info[0].estatus !== 'Creado') {
+              Alert.alert('Cuidado', 'Esta Guia no se deberia de escanear', [
                 { text: 'Entendido', onPress: () => setStopScan(false) },
               ]);
             } else {
@@ -104,8 +104,6 @@ const ScanRoute = ({
     setScannedCount(0);
     setGuiasCount(0);
     setStopScan(false);
-    setScanned([]);
-    setGuias([]);
     onFinish(guiasData);
     navigation.goBack();
   };

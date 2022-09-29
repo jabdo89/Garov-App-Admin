@@ -78,6 +78,7 @@ const ScanRoute = ({
                 setGuiasData([...guiasData, info]);
                 setGuiasCount(guiasCount + 1);
               }
+
               if (scanned.includes(data)) {
                 Alert.alert('Cuidado', 'Esta Guia ya fue escaneada', [
                   { text: 'Entendido', onPress: () => setStopScan(false) },
@@ -102,9 +103,13 @@ const ScanRoute = ({
 
   const submit = () => {
     setScannedCount(0);
+    setScanned([]);
     setGuiasCount(0);
+    setGuias([]);
     setStopScan(false);
     onFinish(guiasData);
+    setGuiasData([]);
+
     navigation.goBack();
   };
 

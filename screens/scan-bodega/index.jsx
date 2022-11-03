@@ -51,7 +51,7 @@ const InitialDeliveriesScanModal = ({ navigation }) => {
 
         // eslint-disable-next-line func-names
         if (querySnapshot.empty) {
-          Alert.alert('Cuidado', 'Esta Guia no existe en el sistema', [
+          Alert.alert('Cuidado', `Esta Guia no existe en el sistema (${data})`, [
             { text: 'Entendido', onPress: () => setStopScan(false) },
           ]);
           return;

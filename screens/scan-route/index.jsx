@@ -92,7 +92,7 @@ const ScanRoute = ({
             }
           });
           if (querySnapshot.empty) {
-            Alert.alert('Cuidado', 'Esta Guia no existe', [
+            Alert.alert('Cuidado', `Esta Guia no existe en el sistema (${data})`, [
               { text: 'Entendido', onPress: () => setStopScan(false) },
             ]);
           }
